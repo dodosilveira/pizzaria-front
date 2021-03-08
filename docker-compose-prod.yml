@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+  web:
+    container_name: painelconsumidor
+    restart: unless-stopped
+    build:
+      context: ./
+      dockerfile: .docker/node/Dockerfile
+      args:
+        - MODE=production
+    command: ["node", "server"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.painelconsumidor.rule=Host(`convenio.registrocivil.org.br`)"
+      - "traefik.http.routers.painelconsumidor.entrypoints=web"
+    networks:
+      - jenkinsprod_proxynet
+
+networks:
+  jenkinsprod_proxynet:
+    external: true
