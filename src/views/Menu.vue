@@ -14,7 +14,7 @@
         <b-collapse
           id="nav-collapse"
           is-nav>
-          <img src="@/assets/images/logo.png" width="150">
+          <img src="@/assets/images/logo.png" width="120" class="pt-1 pb-2">
           <b-navbar-nav class="ml-auto" />
           <a v-if="checkAuth()"
              href="#"
@@ -35,7 +35,7 @@ export default {
   name: 'Menu',
   data: function () {
     return {
-      auth: null,
+      auth: null
     }
   },
   computed: {
