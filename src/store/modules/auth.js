@@ -5,7 +5,7 @@ export default {
   namespaced: true,
   state: {
     status: null,
-    token: localStorage.getItem('access_token') || null,
+    token: localStorage.getItem('token') || null,
     error: null
   },
   getters: {
@@ -35,48 +35,34 @@ export default {
         commit('auth_error', msg)
       })
     },
-    check ({ commit }) {
-      checkLogin().then(response => {
-        if (response.data != true) {
-          commit('auth_logout')
-        } else {
-          commit('check')
-        }
-      }).catch(function (err) {
-        console.error(err)
-        commit('auth_logout')
-      })
+    check () {
+      if (checkLogin() != true) {
+        window.location = '/'
+        logout()
+      }
     },
-    logout ({ commit }) {
-      logout().then(response => {
-        console.log(response.data)
-        objSwal.success.title = 'Sucesso'
-        /*Swal.fire(objSwal.success)*/
-      }).catch(function (err) {
-        objSwal.error.title = 'Erro'
-        objSwal.error.text = JSON.stringify(err.message)
-        Swal.fire(objSwal.error)
-      })
-      commit('auth_logout')
+    logout () {
+      if (logout() == true) {
+        logout()
+      } else {
+        console.log(logout())
+      }
     }
   },
   mutations: {
-    check (state) {
-      console.log('check', state)
-    },
     auth_success (state, token) {
-      localStorage.setItem('access_token', token)
+      localStorage.setItem('token', token)
       state.status = 'success'
       state.token = token
     },
     auth_error (state, msg) {
-      localStorage.removeItem('access_token')
+      localStorage.removeItem('token')
       state.token = null
       state.status = 'error'
       state.error = msg
     },
     auth_logout (state) {
-      localStorage.removeItem('access_token')
+      localStorage.removeItem('token')
       state.token = null
       state.status = 'logout'
       router.push('/')

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAuth()"
+  <div v-if="checkAuth() == true"
        class="dashboard">
     <b-container class="mt-3">
       <b-row>

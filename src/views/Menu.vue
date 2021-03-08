@@ -14,7 +14,14 @@
         <b-collapse
           id="nav-collapse"
           is-nav>
+          <img src="@/assets/images/logo.png" width="150">
           <b-navbar-nav class="ml-auto" />
+          <a v-if="checkAuth()"
+             href="#"
+             class="dropdown-item text-right"
+             @click="logout">
+            Sair
+          </a>
         </b-collapse>
       </template>
     </b-navbar>
@@ -49,7 +56,7 @@ export default {
     },
     logout: function () {
       localStorage.clear()
-      window.location.href = 'login'
+      window.location.href = '/'
     }
   }
 }
