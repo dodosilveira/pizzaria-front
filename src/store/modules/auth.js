@@ -79,7 +79,7 @@ export default {
       localStorage.removeItem('access_token')
       state.token = null
       state.status = 'logout'
-      router.push('/login')
+      router.push('/')
     }
   }
 }
