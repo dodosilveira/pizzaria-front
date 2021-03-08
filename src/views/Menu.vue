@@ -9,19 +9,21 @@
       <template>
         <b-navbar-brand
           href="#"
-          to="/" />
+          to="/dashboard">
+          <img src="@/assets/images/logo.png" width="120" class="ml-3">
+        </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse" />
         <b-collapse
           id="nav-collapse"
           is-nav>
-          <img src="@/assets/images/logo.png" width="120" class="pt-1 pb-2">
-          <b-navbar-nav class="ml-auto" />
-          <a v-if="checkAuth()"
-             href="#"
-             class="dropdown-item text-right"
-             @click="logout">
-            Sair
-          </a>
+          <b-navbar-nav class="ml-auto">
+            <a v-if="checkAuth()"
+               href="#"
+               class="dropdown-item text-right"
+               @click="logout">
+              Sair
+            </a>
+          </b-navbar-nav>
         </b-collapse>
       </template>
     </b-navbar>
