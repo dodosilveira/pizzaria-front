@@ -54,7 +54,7 @@
                 <b-col>
                   <p v-if="error"
                      class="alert alert-danger">
-                    {{ error }}
+                    {{ error }} <span style="display:none;">{{ isLoading = false }}</span>
                   </p>
                 </b-col>
               </b-row>
@@ -89,11 +89,11 @@ export default {
     })
   },
   methods: {
-    loginStore: function () {
+    loginStore () {
       this.isLoading = true
       this.$validator.validate().then(resp => {
-        console.log(resp)
         this.$store.dispatch('auth/loginStore', this.form)
+        console.log(resp)
       })
     }
   }

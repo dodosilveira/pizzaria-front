@@ -21,12 +21,54 @@
                href="#"
                class="dropdown-item text-right"
                @click="logout">
-              Sair
+              <i class="fa fa-power-off mr-1" />Sair
             </a>
           </b-navbar-nav>
         </b-collapse>
       </template>
     </b-navbar>
+    <b-container v-if="checkAuth()" class="mt-4">
+      <b-row>
+        <div class="col-md pl-0 text-left">
+          <router-link
+            href="#"
+            to="/dashboard"
+            class="btn btn-outline-secondary mr-3">
+            <span>Dashboard</span>
+          </router-link>
+          <router-link
+            href="#"
+            to="/pedido"
+            class="btn btn-outline-secondary mr-3">
+            <span>Pedidos</span>
+          </router-link>
+          <router-link
+            href="#"
+            to="/produtos"
+            class="btn btn-outline-secondary mr-3">
+            <span>Produtos</span>
+          </router-link>
+          <router-link
+            href="#"
+            to="/clientes"
+            class="btn btn-outline-secondary mr-3">
+            <span>Clientes</span>
+          </router-link>
+          <router-link
+            href="#"
+            to="/fila"
+            class="btn btn-outline-secondary mr-3">
+            <span>Preparo</span>
+          </router-link>
+          <router-link
+            href="#"
+            to="/administracao"
+            class="btn btn-outline-secondary mr-3">
+            <span>Administração</span>
+          </router-link>
+        </div>
+      </b-row>
+    </b-container>
   </div>
 </template>
 

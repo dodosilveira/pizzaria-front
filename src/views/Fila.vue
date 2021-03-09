@@ -4,7 +4,7 @@
     <b-container class="mt-3">
       <b-row>
         <h4 class="mt-2 mr-3 mb-4">
-          <i class="fa fa-chart-line mr-2" />DASHBOARD
+          <i class="fa fa-utensils mr-2" />PREPARO
         </h4>
       </b-row>
     </b-container>
@@ -25,7 +25,6 @@ export default {
   methods: {
     checkAuth () {
       return this.isLoggedIn
-      console.log(this.isLoggedIn)
     }
   }
 }
