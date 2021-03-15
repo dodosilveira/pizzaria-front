@@ -6,6 +6,8 @@ import Clientes from './views/Clientes.vue'
 import Produtos from './views/Produtos.vue'
 import Pedido from './views/Pedido.vue'
 import Administracao from './views/Administracao.vue'
+import AdministracaoPerfil from './views/AdministracaoPerfil.vue'
+import AdministracaoUsuario from './views/AdministracaoUsuario.vue'
 import Fila from './views/Fila.vue'
 
 import NotFound from './views/404.vue'
@@ -45,6 +47,21 @@ export default new Router({
       path: '/administracao',
       name: 'administracao',
       component: Administracao
+    },
+    {
+      path: '/administracao-perfil',
+      name: 'administracao-perfil',
+      component: AdministracaoPerfil
+    },
+    {
+      path: '/administracao-perfil/:id',
+      name: 'perfil-editar',
+      component: AdministracaoPerfil
+    },
+    {
+      path: '/administracao-usuario',
+      name: 'administracao-usuario',
+      component: AdministracaoUsuario
     },
     {
       path: '/fila',
