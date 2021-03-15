@@ -1,6 +1,8 @@
 <template>
   <div v-if="checkAuth() == true"
        class="dashboard">
+    <loading :active.sync="isLoading"
+             :can-cancel="false" />
     <b-container class="mt-3">
       <b-row>
         <h4 class="mt-2 mr-3 mb-4">
@@ -49,14 +51,20 @@
               <div class="col-md-12 mb-2">
                 <input type="text" class="form-control col-md-6" placeholder="Nome Perfil" :value="getProf.descricao">
               </div>
+              
               <div class="col-md-12 mb-4">
-                <div v-for="permissao in permissoes" :key="permissao.abreviacao" class="form-check">
-                  <input :id="permissao.abreviacao" class="form-check-input checkbox-inline" type="checkbox" value="" 
-                         style="width:18px; height:18px; margin-top:1px;">
-                  <div style="margin-top:10px; margin-left:5px;">
-                    {{ permissao.descricao }}
+                <span v-if="getProf.permissao[0]">
+                  <div v-for="permissao in permissoes" :key="permissao.abreviacao" class="form-check">
+                    <input class="form-check-input checkbox-inline" type="checkbox" checked
+                           style="width:18px; height:18px; margin-top:1px;">
+                    <div style="margin-top:10px; margin-left:5px;">
+                      {{ permissao.descricao }}
+                    </div>                  
                   </div>
-                </div>
+                </span>
+                <span v-else>
+                  <span class="badge badge-danger">Nenhum privilégio selecionado</span>
+                </span>
               </div>
               <div class="col-md-12 mb-4">
                 <a class="btn btn-primary mr-3 text-white">Atualizar</a>
@@ -71,15 +79,18 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 import { mapGetters } from 'vuex'
 import MenuAdministracao from '../components/MenuAdministracao'
 import { profile, getProfile } from '../services/profile'
 
 export default {
   name: 'Dashboard',
-  components: {MenuAdministracao},
+  components: { Loading, MenuAdministracao },
   data () {
     return {
+      isLoading: false,
       profiles: [],
       getProf: null,
       permissoes: [],
@@ -99,14 +110,18 @@ export default {
       return this.isLoggedIn
     },
     async init () {
+      this.isLoading = true
       const profiles = await profile()
       this.profiles = profiles.data
+      this.isLoading = false
     },
     async getProfile (id) {
+      this.isLoading = true
       const getprofile = await getProfile(id)
       this.getProf = getprofile.data
       this.permissoes = getprofile.data.permissao
       this.profiles = null
+      this.isLoading = false
     }
   }
 }

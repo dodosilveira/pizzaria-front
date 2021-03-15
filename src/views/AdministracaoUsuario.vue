@@ -1,6 +1,8 @@
 <template>
   <div v-if="checkAuth() == true"
        class="dashboard">
+    <loading :active.sync="isLoading"
+             :can-cancel="false" />
     <b-container class="mt-3">
       <b-row>
         <h4 class="mt-2 mr-3 mb-4">
@@ -74,15 +76,18 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 import { mapGetters } from 'vuex'
 import MenuAdministracao from '../components/MenuAdministracao'
 import { returnUsers } from '../services/users'
 
 export default {
   name: 'Dashboard',
-  components: {MenuAdministracao},
+  components: { Loading, MenuAdministracao },
   data () {
     return {
+      isLoading: false,
       users: [],
       edit: null
     }
@@ -100,8 +105,10 @@ export default {
       return this.isLoggedIn
     },
     async init () {
+      this.isLoading = true
       const users = await returnUsers()
       this.users = users.data
+      this.isLoading = false
     }
   }
 }
