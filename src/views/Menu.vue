@@ -33,37 +33,37 @@
           <router-link
             href="#"
             to="/dashboard"
-            class="btn btn-outline-secondary mr-3">
+            class="btn btn-outline-secondary mr-4">
             <span>Dashboard</span>
           </router-link>
           <router-link
             href="#"
             to="/pedido"
-            class="btn btn-outline-secondary mr-3">
+            class="btn btn-outline-secondary mr-4">
             <span>Pedidos</span>
           </router-link>
           <router-link
             href="#"
             to="/produtos"
-            class="btn btn-outline-secondary mr-3">
+            class="btn btn-outline-secondary mr-4">
             <span>Produtos</span>
           </router-link>
           <router-link
             href="#"
             to="/clientes"
-            class="btn btn-outline-secondary mr-3">
+            class="btn btn-outline-secondary mr-4">
             <span>Clientes</span>
           </router-link>
           <router-link
             href="#"
             to="/fila"
-            class="btn btn-outline-secondary mr-3">
+            class="btn btn-outline-secondary mr-4">
             <span>Preparo</span>
           </router-link>
           <router-link
             href="#"
             to="/administracao"
-            class="btn btn-outline-secondary mr-3">
+            class="btn btn-outline-secondary mr-4">
             <span>Administração</span>
           </router-link>
         </div>

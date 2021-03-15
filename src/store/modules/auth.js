@@ -15,24 +15,12 @@ export default {
   actions: {
     async loginStore ({ commit }, user) {
       return login(user).then(async response => {
-        if (response.status === 200) {
+        if (response.data.sucesso == true) {
           await commit('auth_success', response.data.token)
-          /*return router.push('/dashboard')*/
-          window.location = '/dashboard'
+          router.push('dashboard')
         } else {
-          objSwal.error.title = 'Erro'
-          Swal.fire(objSwal.error)
+          commit('auth_error', response.data.mensagem[0])
         }
-      }).catch(function (err) {
-        let msg = null
-        if (!err.response) {
-          msg = 'Erro de conexão'
-        } else if (err.response.status === 401) {
-          msg = 'Usuário ou senha inválida'
-        } else {
-          msg = 'Erro ao realizar o login'
-        }
-        commit('auth_error', msg)
       })
     },
     check () {

@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <loading :active.sync="isLoading"
-             :can-cancel="false" />
     <div class="scroll mt-3 page-body">
       <div class="container container-xs pb-5">
         <div class="card card-box">
@@ -54,7 +52,7 @@
                 <b-col>
                   <p v-if="error"
                      class="alert alert-danger">
-                    {{ error }} <span style="display:none;">{{ isLoading = false }}</span>
+                    {{ error }}
                   </p>
                 </b-col>
               </b-row>
@@ -67,16 +65,12 @@
 </template>
 
 <script>
-import Loading from 'vue-loading-overlay'
-import 'vue-loading-overlay/dist/vue-loading.css'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
-  components: { Loading },
   data () {
     return {
-      isLoading: false,
       form: {
         email: null,
         senha: null
@@ -90,7 +84,6 @@ export default {
   },
   methods: {
     loginStore () {
-      this.isLoading = true
       this.$validator.validate().then(resp => {
         this.$store.dispatch('auth/loginStore', this.form)
         console.log(resp)
