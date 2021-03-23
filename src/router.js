@@ -8,6 +8,7 @@ import Pedido from './views/Pedido.vue'
 import Administracao from './views/Administracao.vue'
 import AdministracaoPerfil from './views/AdministracaoPerfil.vue'
 import AdministracaoUsuario from './views/AdministracaoUsuario.vue'
+import AdministracaoUsuarioAdd from './views/AdministracaoUsuarioAdd.vue'
 import Fila from './views/Fila.vue'
 
 import NotFound from './views/404.vue'
@@ -62,6 +63,11 @@ export default new Router({
       path: '/administracao-usuario',
       name: 'administracao-usuario',
       component: AdministracaoUsuario
+    },
+    {
+      path: '/administracao-usuario-adicionar',
+      name: 'administracao-usuario-adicionar',
+      component: AdministracaoUsuarioAdd
     },
     {
       path: '/fila',

@@ -2,14 +2,6 @@
 
 import axios from 'axios'
 
-export function url (path) {
-  if (!path.indexOf('/') == 0) {
-    path = `/${path}`
-  }
-
-  return `${process.env.VUE_APP_URL_CONSUMIDOR}/painel${path}`
-}
-
 export function sendData (url, data, config) {
   return axios.post(url, data, config)
 }

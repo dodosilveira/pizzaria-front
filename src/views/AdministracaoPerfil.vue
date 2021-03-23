@@ -43,29 +43,33 @@
               </tr>
             </tbody>
           </table>
+          <a class="btn btn-secondary text-white">Adicionar perfil</a>
         </div>
 
         <div v-if="getProf" class="col-md-10">
           <form>
             <div class="row">
-              <div class="col-md-12 mb-2">
-                <input type="text" class="form-control col-md-6" placeholder="Nome Perfil" :value="getProf.descricao">
+              <div class="col-md-12 mb-3">
+                <input type="text" class="form-control col-md-6" placeholder="Nome do perfil" :value="getProf.descricao">
+              </div>
+
+              <div class="col-md-12 mb-4" style="font-size:14px;">
+                <div class="row" style="margin-left:0px;">
+                  <div v-for="privilegio in privilegios" :key="privilegio.abreviacao" class="form-check col-md-3">
+                    <input :id="privilegio.abreviacao" :name="privilegio.abreviacao" class="form-check-input checkbox-inline" 
+                           type="checkbox"
+                           style="width:18px; height:18px; margin-top:1px;"
+                           :value="privilegio.abreviacao"
+                           checked>
+
+                    <label :for="privilegio.abreviacao" style="margin-left:5px;">
+                      {{ privilegio.descricao }}
+                    </label> 
+                  </div>
+                </div>
               </div>
               
-              <div class="col-md-12 mb-4">
-                <span v-if="getProf.permissao[0]">
-                  <div v-for="permissao in permissoes" :key="permissao.abreviacao" class="form-check">
-                    <input class="form-check-input checkbox-inline" type="checkbox" checked
-                           style="width:18px; height:18px; margin-top:1px;">
-                    <div style="margin-top:10px; margin-left:5px;">
-                      {{ permissao.descricao }}
-                    </div>                  
-                  </div>
-                </span>
-                <span v-else>
-                  <span class="badge badge-danger">Nenhum privilégio selecionado</span>
-                </span>
-              </div>
+
               <div class="col-md-12 mb-4">
                 <a class="btn btn-primary mr-3 text-white">Atualizar</a>
                 <a href="/administracao-perfil" class="btn btn-secondary text-white">Voltar</a>
@@ -84,6 +88,7 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import { mapGetters } from 'vuex'
 import MenuAdministracao from '../components/MenuAdministracao'
 import { profile, getProfile } from '../services/profile'
+import { privileges } from '../services/access'
 
 export default {
   name: 'Dashboard',
@@ -92,8 +97,15 @@ export default {
     return {
       isLoading: false,
       profiles: [],
+      privilegios: [{
+        checked: true
+      }],
       getProf: null,
-      permissoes: [],
+      permissoes: [{
+        descricao: null,
+        abreviacao: null,
+        checked: false
+      }],
       edit: null
     }
   },
@@ -111,18 +123,32 @@ export default {
     },
     async init () {
       this.isLoading = true
+
+      const privilegios = await privileges()
+      this.privilegios = privilegios.data
+
       const profiles = await profile()
       this.profiles = profiles.data
+
       this.isLoading = false
     },
     async getProfile (id) {
       this.isLoading = true
+
       const getprofile = await getProfile(id)
       this.getProf = getprofile.data
       this.permissoes = getprofile.data.permissao
       this.profiles = null
+
+      var i = 0
+      for (i = 0; i < getprofile.data.permissao.length; i++) {
+        this.permissoes[i].checked = true
+      }
+
+      console.log(this.permissoes)
+
       this.isLoading = false
-    }
+    },
   }
 }
 </script>
