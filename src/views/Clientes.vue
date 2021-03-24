@@ -13,10 +13,10 @@
       <form style="margin-left:-10px;" @submit.prevent="searchClients">
         <div class="row">
           <div class="col-md-2">
-            <input type="text" class="form-control" placeholder="Telefone">
+            <input v-model="sTelefone" type="text" class="form-control" placeholder="Telefone">
           </div>
           <div class="col-md-5">
-            <input type="text" class="form-control" placeholder="Nome">
+            <input v-model="sNome" type="text" class="form-control" placeholder="Nome">
           </div>
           <div class="col-md-5">
             <button type="submit" class="btn btn-primary">
@@ -47,7 +47,7 @@
               <tbody>
                 <tr v-for="client in clients" :key="client.id">
                   <td>{{ client.nome }}</td>
-                  <td>{{ client.telefone }}</td>
+                  <td>({{ client.ddd }}) {{ client.telefone }}</td>
                   <td>{{ client.email }}</td>
                   <td>{{ client.cpf }}</td>
                   <td style="text-align:center!important;">
@@ -65,21 +65,24 @@
       <hr class="mt-2" style="margin-left:-10px;">
 
       <transition name="fade">
-        <form v-if="addCliente == true" class="{active: addCliente} mt-4">
+        <form v-if="addCliente == true" class="{active: addCliente} mt-4" @submit.prevent="addClient">
           <div class="row mt-4" style="margin-left:-20px;">
             <div class="col-md-6">
               <div class="row">
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="Telefone">
+                <div class="form-group col-md-2">
+                  <input v-model="form.ddd" type="text" class="form-control" placeholder="DDD">
                 </div>
-                <div class="form-group col-md-6">
-                  <input type="text" class="form-control" placeholder="CPF">
+                <div class="form-group col-md-5">
+                  <input v-model="form.telefone" type="text" class="form-control" placeholder="Telefone">
+                </div>
+                <div class="form-group col-md-7">
+                  <input v-model="form.cpf" type="text" class="form-control" placeholder="CPF">
                 </div>
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control" placeholder="Nome">
+                  <input v-model="form.nome" type="text" class="form-control" placeholder="Nome">
                 </div>
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control" placeholder="E-mail">
+                  <input v-model="form.email" type="text" class="form-control" placeholder="E-mail">
                 </div>
                 <div class="form-group text-left col-md-12">
                   <button class="btn btn-primary">
@@ -91,25 +94,25 @@
             <div class="col-md-6">
               <div class="row">
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control col-md-4" placeholder="CEP">
+                  <input v-model="form.endereco.cep" type="text" class="form-control col-md-4" placeholder="CEP">
                 </div>
                 <div class="form-group col-md-9">
-                  <input type="text" class="form-control" placeholder="Rua">
+                  <input v-model="form.endereco.rua" type="text" class="form-control" placeholder="Rua">
                 </div>
                 <div class="form-group col-md-3">
-                  <input type="text" class="form-control" placeholder="Número">
+                  <input v-model="form.endereco.numero" type="text" class="form-control" placeholder="Número">
                 </div>
                 <div class="form-group col-md-12">
-                  <input type="text" class="form-control" placeholder="Complemento">
+                  <input v-model="form.endereco.complemento" type="text" class="form-control" placeholder="Complemento">
                 </div>
                 <div class="form-group col-md-5">
-                  <input type="text" class="form-control" placeholder="Bairro">
+                  <input v-model="form.endereco.bairro" type="text" class="form-control" placeholder="Bairro">
                 </div>
                 <div class="form-group col-md-5">
-                  <input type="text" class="form-control" placeholder="Cidade">
+                  <input v-model="form.endereco.cidade" type="text" class="form-control" placeholder="Cidade">
                 </div>
                 <div class="form-group col-md-2">
-                  <input type="text" class="form-control" placeholder="Estado">
+                  <input v-model="form.endereco.estado" type="text" class="form-control" placeholder="Estado">
                 </div>
               </div>
             </div>
@@ -125,7 +128,7 @@ import router from '../router'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 import { mapGetters } from 'vuex'
-import { returnClients, deleteClient } from '../services/clients'
+import { returnClients, addClient, deleteClient } from '../services/clients'
 
 export default {
   name: 'Dashboard',
@@ -136,16 +139,17 @@ export default {
       addCliente: false,
       search: false,
       clients: null,
+      sNome: '',
+      sTelefone: '',
       form: {
         cpf: null,
         email: null,
         nome: null,
-        ddd: 0,
-        telefone: 0,
+        ddd: null,
+        telefone: null,
         endereco: {
-          id: 0,
           rua: null,
-          numero: 0,
+          numero: null,
           complemento: null,
           bairro: null,
           cidade: null,
@@ -166,7 +170,7 @@ export default {
     },
     async searchClients () {
       this.isLoading = true
-      const clients = await returnClients()
+      const clients = await returnClients(this.sNome, this.sTelefone)
       this.search = true
       this.clients = clients.data
       this.isLoading = false
@@ -193,6 +197,27 @@ export default {
       if (returnAPI.status === 200) {
         router.go() 
       }
+    },
+    async addClient () {
+      this.isLoading = true
+      const returnAPI = await addClient(this.form)
+      this.isLoading = false
+
+      objSwal.error.title = 'Atenção'
+      
+      if (returnAPI.status === 200) {
+        objSwal.error.type = 'success'
+      } else {
+        objSwal.error.type = 'info'
+      }
+
+      objSwal.error.text = returnAPI.data.mensagem[0]
+      Swal.fire(objSwal.error)
+      
+      if (returnAPI.status === 200) {
+        router.go()
+      }
+
     }
   }
 }
