@@ -22,7 +22,7 @@ export async function addClient (data) {
       bairro: data.endereco.bairro,
       cidade: data.endereco.cidade,
       estado: data.endereco.estado,
-      cep: data.endereco.cep,
+      cep: data.endereco.cep
     },
   },{
     headers: getHeaders(`Bearer ${localStorage.token}`)
