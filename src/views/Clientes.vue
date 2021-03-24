@@ -1,6 +1,8 @@
 <template>
   <div v-if="checkAuth() == true"
        class="dashboard">
+    <loading :active.sync="isLoading"
+             :can-cancel="false" />
     <b-container class="mt-3">
       <b-row>
         <h4 class="mt-2 mr-3 mb-3">
@@ -8,7 +10,7 @@
         </h4>
       </b-row>
 
-      <form style="margin-left:-10px;">
+      <form style="margin-left:-10px;" @submit.prevent="searchClients">
         <div class="row">
           <div class="col-md-2">
             <input type="text" class="form-control" placeholder="Telefone">
@@ -26,13 +28,45 @@
           </div>
         </div>
       </form>
-      <div id="search" /><!-- LISTAGEM PESQUISA -->
-
-      <hr style="margin-left:-10px;">
 
       <transition name="fade">
-        <form v-if="addCliente == true" class="{active: addCliente}">
-          <div class="row mt-3" style="margin-left:-20px;">
+        <div v-if="search" class="row mt-4" style="margin-left:-20px;">
+          <div class="col-md-12">
+            <table id="example" class="table table-striped table-bordered" style="width:100%; font-size:11px;">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Telefone</th>
+                  <th>E-mail</th>
+                  <th>CPF</th>
+                  <th style="text-align:center!important; width:100px;">
+                    Ações
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="client in clients" :key="client.id">
+                  <td>{{ client.nome }}</td>
+                  <td>{{ client.telefone }}</td>
+                  <td>{{ client.email }}</td>
+                  <td>{{ client.cpf }}</td>
+                  <td style="text-align:center!important;">
+                    <a class="btn btn-primary btn-sm mr-2 text-white"><i class="fa fa-edit" /></a>
+                    <a class="btn btn-danger btn-sm text-white" @click="deleteClient(client.id)"><i class="fa fa-trash-alt" /></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <a class="btn btn-primary float-right text-white" @click="search = false">Limpar</a>
+          </div>
+        </div>
+      </transition>
+
+      <hr class="mt-2" style="margin-left:-10px;">
+
+      <transition name="fade">
+        <form v-if="addCliente == true" class="{active: addCliente} mt-4">
+          <div class="row mt-4" style="margin-left:-20px;">
             <div class="col-md-6">
               <div class="row">
                 <div class="form-group col-md-6">
@@ -87,14 +121,38 @@
 </template>
 
 <script>
+import router from '../router'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 import { mapGetters } from 'vuex'
+import { returnClients, deleteClient } from '../services/clients'
 
 export default {
   name: 'Dashboard',
-  components: {},
+  components: { Loading },
   data () {
     return {
-      addCliente: false
+      isLoading: false,
+      addCliente: false,
+      search: false,
+      clients: null,
+      form: {
+        cpf: null,
+        email: null,
+        nome: null,
+        ddd: 0,
+        telefone: 0,
+        endereco: {
+          id: 0,
+          rua: null,
+          numero: 0,
+          complemento: null,
+          bairro: null,
+          cidade: null,
+          estado: null,
+          cep: null
+        }
+      }
     }
   },
   computed: {
@@ -106,8 +164,35 @@ export default {
     checkAuth () {
       return this.isLoggedIn
     },
+    async searchClients () {
+      this.isLoading = true
+      const clients = await returnClients()
+      this.search = true
+      this.clients = clients.data
+      this.isLoading = false
+    },
     myFilter: function () {
       this.addCliente = !this.addCliente
+    },
+    async deleteClient (id) {
+      this.isLoading = true
+      const returnAPI = await deleteClient(id)
+      this.isLoading = false
+
+      objSwal.error.title = 'Atenção'
+      
+      if (returnAPI.status === 200) {
+        objSwal.error.type = 'success'
+      } else {
+        objSwal.error.type = 'info'
+      }
+
+      objSwal.error.text = returnAPI.data.mensagem[0]
+      Swal.fire(objSwal.error)
+
+      if (returnAPI.status === 200) {
+        router.go() 
+      }
     }
   }
 }

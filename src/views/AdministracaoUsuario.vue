@@ -92,12 +92,18 @@ export default {
       this.isLoading = false
 
       objSwal.error.title = 'Atenção'
-      objSwal.error.type = 'warning'
+      
+      if (returnAPI.status === 200) {
+        objSwal.error.type = 'success'
+      } else {
+        objSwal.error.type = 'info'
+      }
+
       objSwal.error.text = returnAPI.data.mensagem[0]
       Swal.fire(objSwal.error)
 
       if (returnAPI.status === 200) {
-        router.go()
+        router.go(-1) 
       }
     }
   }

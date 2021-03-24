@@ -22,7 +22,7 @@
                          required>
                 </div>
                 <div class="form-group col-md-5">
-                  <input v-model="form.telefone" type="text" class="form-control" placeholder="Celular" 
+                  <input v-model="form.telefone" type="text" class="col-md-6 form-control" placeholder="Celular" 
                          required>
                 </div>
                 <div class="form-group col-md-6">
@@ -121,7 +121,13 @@ export default {
       this.isLoading = false
 
       objSwal.error.title = 'Atenção'
-      objSwal.error.type = 'info'
+      
+      if (returnAPI.status === 200) {
+        objSwal.error.type = 'success'
+      } else {
+        objSwal.error.type = 'info'
+      }
+
       objSwal.error.text = returnAPI.data.mensagem[0]
       Swal.fire(objSwal.error)
       
