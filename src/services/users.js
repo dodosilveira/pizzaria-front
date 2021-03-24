@@ -26,9 +26,11 @@ export async function addUser (data) {
 }
 
 export async function deleteUser (id) {
+
   return await axios.delete(`https://pizzaria-iunic.herokuapp.com/api/usuario/${id}`, {
     headers: getHeaders(`Bearer ${localStorage.token}`)
   }).catch(function (error) {
     return error.response
   })
+
 }

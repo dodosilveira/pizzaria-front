@@ -118,16 +118,17 @@ export default {
     async addUser () {
       this.isLoading = true
       const returnAPI = await addUser(this.form)
+      this.isLoading = false
 
       objSwal.error.title = 'Atenção'
+      objSwal.error.type = 'info'
       objSwal.error.text = returnAPI.data.mensagem[0]
       Swal.fire(objSwal.error)
-
+      
       if (returnAPI.status === 200) {
         router.push('administracao-usuario')
       }
 
-      this.isLoading = false
     }
   }
 }

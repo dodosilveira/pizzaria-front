@@ -6,6 +6,8 @@ import Clientes from './views/Clientes.vue'
 import Produtos from './views/Produtos.vue'
 import Pedido from './views/Pedido.vue'
 import Administracao from './views/Administracao.vue'
+import AdministracaoCategoria from './views/AdministracaoCategoria.vue'
+import AdministracaoCategoriaAdd from './views/AdministracaoCategoriaAdd.vue'
 import AdministracaoPerfil from './views/AdministracaoPerfil.vue'
 import AdministracaoUsuario from './views/AdministracaoUsuario.vue'
 import AdministracaoUsuarioAdd from './views/AdministracaoUsuarioAdd.vue'
@@ -48,6 +50,16 @@ export default new Router({
       path: '/administracao',
       name: 'administracao',
       component: Administracao
+    },
+    {
+      path: '/administracao-categoria',
+      name: 'administracao-categoria',
+      component: AdministracaoCategoria
+    },
+    {
+      path: '/administracao-categoria-adicionar',
+      name: 'administracao-categoria-adicionar',
+      component: AdministracaoCategoriaAdd
     },
     {
       path: '/administracao-perfil',

@@ -168,3 +168,9 @@ input[type='radio']:checked:after {
 .swal2-animate-warning-icon{
   font-size:18px!important;
 }
+.swal2-animate-info-icon{
+  font-size:18px!important;
+}
+.swal2-animate-question-icon{
+  font-size:18px!important;
+}

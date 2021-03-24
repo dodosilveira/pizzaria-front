@@ -47,8 +47,8 @@
                 <div class="form-group col-md-12">
                   <input type="text" class="form-control" placeholder="E-mail">
                 </div>
-                <div class="form-group text-right col-md-12">
-                  <button class="col-md-12 btn btn-primary">
+                <div class="form-group text-left col-md-12">
+                  <button class="btn btn-primary">
                     Adicionar cliente
                   </button>
                 </div>

@@ -52,8 +52,8 @@
                   <input id="customFile" type="file" class="form-control custom-file-input">
                   <label class="form-control custom-file-label" for="customFile" style="margin-left:10px; border-color: #696969; width:555px;">Imagem/Foto do Produto</label>
                 </div>
-                <div class="form-group text-right col-md-12">
-                  <button class="col-md-12 btn btn-primary">
+                <div class="form-group text-left col-md-12">
+                  <button class="btn btn-primary">
                     Adicionar produto
                   </button>
                 </div>
