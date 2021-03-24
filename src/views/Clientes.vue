@@ -94,7 +94,8 @@
             <div class="col-md-6">
               <div class="row">
                 <div class="form-group col-md-12">
-                  <input v-model="form.endereco.cep" type="text" class="form-control col-md-4" placeholder="CEP">
+                  <input v-model="form.endereco.cep" type="text" class="form-control col-md-4" placeholder="CEP" 
+                         @change="getCEP">
                 </div>
                 <div class="form-group col-md-9">
                   <input v-model="form.endereco.rua" type="text" class="form-control" placeholder="Rua">
@@ -128,7 +129,7 @@ import router from '../router'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
 import { mapGetters } from 'vuex'
-import { returnClients, addClient, deleteClient } from '../services/clients'
+import { returnClients, addClient, deleteClient, getCEP } from '../services/clients'
 
 export default {
   name: 'Dashboard',
@@ -216,6 +217,33 @@ export default {
       
       if (returnAPI.status === 200) {
         router.go()
+      }
+
+    },
+    async getCEP ($event) {
+      
+      this.isLoading = true
+      const returnAPI = await getCEP($event.target.value)
+      this.isLoading = false
+
+      objSwal.error.title = 'Atenção'
+      
+      if (returnAPI.status === 200) {
+        objSwal.error.type = 'success'
+      } else {
+        objSwal.error.type = 'info'
+      }    
+      
+      if (returnAPI.status === 200) {
+        this.form.endereco.rua = returnAPI.data.logradouro
+        this.form.endereco.complemento = returnAPI.data.complemento
+        this.form.endereco.bairro = returnAPI.data.bairro
+        this.form.endereco.cidade = returnAPI.data.localidade
+        this.form.endereco.estado = returnAPI.data.uf    
+        console.log(this.form)     
+      } else {
+        objSwal.error.text = returnAPI.data.mensagem[0]
+        Swal.fire(objSwal.error)
       }
 
     }

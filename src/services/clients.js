@@ -40,3 +40,12 @@ export async function deleteClient (id) {
   })
 
 }
+
+export async function getCEP (cep) {
+
+  return await axios.get(`https://pizzaria-iunic.herokuapp.com/api/CEP/${cep}`, {
+    headers: getHeaders(`Bearer ${localStorage.token}`)
+  })
+}
+
+
