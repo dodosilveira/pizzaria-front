@@ -36,7 +36,7 @@ export async function updateCategory (data) {
   return await axios.put(`https://pizzaria-iunic.herokuapp.com/api/categoria/${data.id}`, {
     id: data.id,
     descricao: data.descricao,
-    icone: 'fa fa-pizza-slice'
+    icone: data.icone
   },{
     headers: getHeaders(`Bearer ${localStorage.token}`)
   }).catch(function (error) {

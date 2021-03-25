@@ -51,12 +51,33 @@
                 </div>
                 <div class="col-md-10 mb-3">
                   <input v-model="form.descricao" type="text" class="form-control" placeholder="Descrição">
-                </div>              
+                </div>
+
+                <div class="col-md-12 mb-3">
+                  <div class="row">
+                    <div class="col-md-2">
+                      <label>Escolha o ícone da categoria</label>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="form-check form-check-inline">
+                        <input id="one" v-model="form.icone" type="radio" value="fa fa-pizza-slice">
+                        <label for="one" style="padding-left:12px; padding-top:15px;"><span class="fa fa-pizza-slice" style="font-size:22px;" /></label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input id="two" v-model="form.icone" type="radio" value="fa fa-wine-bottle">
+                        <label for="two" style="padding-left:12px; padding-top:15px;"><span class="fa fa-wine-bottle" style="font-size:22px;" /></label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input id="three" v-model="form.icone" type="radio" value="fa fa-gift">
+                        <label for="two" style="padding-left:12px; padding-top:15px;"><span class="fa fa-gift" style="font-size:22px;" /></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="col-md-12 mb-4">
                   <button type="submit" class="btn btn-primary mr-3 text-white">
                     Atualizar
                   </button>
-                  <a class="btn btn-secondary mr-3 text-white">Voltar</a>
                 </div>
               </div>
             </form>
@@ -87,7 +108,8 @@ export default {
       showModal: false,
       form: {
         id: null,
-        descricao: null
+        descricao: null,
+        icone: null
       }
     }
   },
