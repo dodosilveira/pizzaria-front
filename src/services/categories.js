@@ -10,7 +10,8 @@ export async function returnCategories () {
 export async function addCategory (data) {
   return await axios.post('https://pizzaria-iunic.herokuapp.com/api/categoria', {
     id: 0,
-	  descricao: data.descricao
+	  descricao: data.descricao,
+    icone: data.icone
   },{
     headers: getHeaders(`Bearer ${localStorage.token}`)
   }).catch(function (error) {

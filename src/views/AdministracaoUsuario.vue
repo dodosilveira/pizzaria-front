@@ -103,7 +103,7 @@ export default {
       Swal.fire(objSwal.error)
 
       if (returnAPI.status === 200) {
-        router.go(-1) 
+        router.go() 
       }
     }
   }
