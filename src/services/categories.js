@@ -19,11 +19,27 @@ export async function addCategory (data) {
 }
 
 export async function deleteCategory (id) {
-
   return await axios.delete(`https://pizzaria-iunic.herokuapp.com/api/categoria/${id}`, {
     headers: getHeaders(`Bearer ${localStorage.token}`)
   }).catch(function (error) {
     return error.response
   })
+}
 
+export async function getCategory (id) {
+  return await axios.get(`https://pizzaria-iunic.herokuapp.com/api/categoria/${id}`,{
+    headers: getHeaders(`Bearer ${localStorage.token}`)
+  })
+}
+
+export async function updateCategory (data) {
+  return await axios.put(`https://pizzaria-iunic.herokuapp.com/api/categoria/${data.id}`, {
+    id: data.id,
+    descricao: data.descricao,
+    icone: 'fa fa-pizza-slice'
+  },{
+    headers: getHeaders(`Bearer ${localStorage.token}`)
+  }).catch(function (error) {
+    return error.response
+  })
 }

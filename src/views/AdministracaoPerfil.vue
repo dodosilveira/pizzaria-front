@@ -145,8 +145,6 @@ export default {
         this.permissoes[i].checked = true
       }
 
-      console.log(this.permissoes)
-
       this.isLoading = false
     },
   }

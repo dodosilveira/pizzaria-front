@@ -239,8 +239,7 @@ export default {
         this.form.endereco.complemento = returnAPI.data.complemento
         this.form.endereco.bairro = returnAPI.data.bairro
         this.form.endereco.cidade = returnAPI.data.localidade
-        this.form.endereco.estado = returnAPI.data.uf    
-        console.log(this.form)     
+        this.form.endereco.estado = returnAPI.data.uf       
       } else {
         objSwal.error.text = returnAPI.data.mensagem[0]
         Swal.fire(objSwal.error)

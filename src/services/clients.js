@@ -38,7 +38,6 @@ export async function deleteClient (id) {
   }).catch(function (error) {
     return error.response
   })
-
 }
 
 export async function getCEP (cep) {
@@ -47,5 +46,3 @@ export async function getCEP (cep) {
     headers: getHeaders(`Bearer ${localStorage.token}`)
   })
 }
-
-
